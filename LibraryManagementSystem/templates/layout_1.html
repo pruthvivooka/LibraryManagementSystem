@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">	
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>{% block title %}{% endblock %}</title>
+		<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+		<link href="{% static 'css/lms_css.css' %}" rel="stylesheet">
+	</head>
+	<body>
+		<div class="navbar-wrapper">
+			<div class="container">
+				<nav class="navbar navbar-inverse navbar-static-top">
+					<div class="container">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+						 	</button>
+							<a class="navbar-brand" href="{% url 'bookSearch:home'%}">LMS</a>
+						</div>
+						<div id="navbar" class="navbar-collapse collapse">
+							<ul class="nav navbar-nav">
+								<li class="{% block nav_home %}{% endblock %}"><a href="{% url 'bookSearch:home'%}">Home</a></li>
+								<li class="{% block nav_book_search %}{% endblock %}"><a href="{% url 'bookSearch:search' %}">Book Search</a></li>
+								<li class="{% block nav_borrower %}{% endblock %}"><a href="{% url 'borrowers:home'%}">Borrowers</a></li>
+								<li class="{% block nav_book_loans %}{% endblock %}"><a href="{% url 'bookLoans:home'%}">Book Loans</a></li>
+							</ul>
+						</div>
+					</div>
+				</nav>
+			</div>
+		</div>
+		<div style="margin-top: 90px;padding: 10px;">
+			<div style="text-align: center;">
+				{% if messages %}
+						{% for message in messages %}
+							<div{% if message.tags %} class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{message.tags}}{%endif%}"{% endif %}>{{ message }}</div>
+						{% endfor %}
+				{% endif %}
+			</div>
+			<div class="container">
+				{% block content %}
+				{% endblock %}
+			</div>
+		</div>
+		<script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+		<script src="{% static 'js/bootstrap.min.js' %}"></script>
+		{% block script %}{% endblock %}
+	</body>
+</html>

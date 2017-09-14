@@ -1,0 +1,81 @@
+{% extends "layout_1.html" %}
+{% block title %}Book Loans{% endblock %}
+{% block nav_book_loans %}active{% endblock %}
+{% block content %}
+<div class="col-md-8 col-md-offset-2" align="center">
+	<form method="GET" action="{% url 'bookLoans:checkIn' %}">
+		{% csrf_token %}
+		<table class="check_out_form">
+			<tr>
+				<td>Card ID</td>
+				<td><input pattern="[0-9]*" name="borrower_id" value="{{borrower_id|default_if_none:''}}" title="Card number must be a valid number." /></td>
+			</tr>
+			<tr>
+				<td>Borrower Name</td>
+				<td><input type="text" name="borrower_name" value="{{borrower_name|default_if_none:''}}"/></td>
+			</tr>
+			<tr>
+				<td>Book ISBN</td>
+				<td><input pattern=".{10}" name="book" value="{{book_id|default_if_none:''}}" title="ISBN must be of length 10." /></td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<div align="center">
+						<input type="reset" name="reset" class="btn btn-default mr10" />
+						<input type="submit" name="submit" value="Submit" class="btn btn-success ml10" />
+					</div>
+				</td>
+			</tr>
+		</table>
+	</form>
+	{% if book_loans is not None %}
+		<div>
+			<table class="book_search_results" style="width: 100%">
+				<tr>
+					<th>ISBN</th>
+					<th>Card ID</th>
+					<th>Borrower Name</th>
+					<th>Check IN</th>
+				</tr>
+				{% for book_loan in book_loans %}
+					{% if forloop.first %}
+						<form id="check_in_form" method="POST" action="{% url 'bookLoans:bookCheckIn' %}">
+							{% csrf_token %}<input type="hidden" name="loan_id" id="check_in" />
+						</form>
+					{% endif %}
+					{% if not forloop.last or book_loans|length < 11 %}
+						<tr>
+							<td>{{ book_loan.book_id }}</td>
+							<td>{{ book_loan.borrower_id }}</td>
+							<td>{{ book_loan.borrower.first_name }} {{book_loan.borrower.last_name}}</td>
+							<td><div class="check_in_button btn btn-default" loan_id='{{book_loan.loan_id}}'>Check In</div></td>
+						</tr>
+					{% endif %}
+				{% empty %}
+					<tr>
+						<td colspan="4">Sorry, no results were found with those combinations.</td>
+					</tr>
+				{% endfor %}
+			</table>
+			{% if book_loans|length == 11%}
+				<a href="{% url 'bookLoans:checkIn' %}{{nxt_params}}" class="fr">Next</a>
+			{% endif %}
+			{% if page_num > 0 %}
+				<a href="{% url 'bookLoans:checkIn' %}{{back_params}}" class="fl">Back</a>
+			{% endif %}
+		</div>
+	{% endif %}
+</div>
+{% endblock %}
+{% block script %}
+{% if book_loans is not None and book_loans|length > 0%}
+	<script type="text/javascript">
+		$(function() {
+			$('.check_in_button').click(function() {
+				$('#check_in').val($(this).attr('loan_id'));
+				$('#check_in_form').submit();
+			});
+		});
+	</script>
+{% endif %}
+{% endblock %}

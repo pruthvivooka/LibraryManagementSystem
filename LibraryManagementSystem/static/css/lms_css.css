@@ -1,0 +1,114 @@
+.m10 {
+	margin: 10px;
+}
+
+.mr10 {
+	margin-right: 10px;
+}
+
+.ml10 {
+	margin-left: 10px;
+}
+
+.p10 {
+	padding: 10px;
+}
+
+.mt10 {
+	margin-top: 10px;
+}
+
+.ml10 {
+	margin-left: 10px;
+}
+
+.ml20 {
+	margin-left: 20px;
+}
+
+.fl {
+	float: left;
+}
+
+.fr {
+	float: right;
+}
+
+.navbar-wrapper {
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+	z-index: 20;
+}
+
+/* Flip around the padding for proper display in narrow viewports */
+.navbar-wrapper > .container {
+	padding-right: 0;
+	padding-left: 0;
+}
+.navbar-wrapper .navbar {
+	padding-right: 15px;
+	padding-left: 15px;
+}
+.navbar-wrapper .navbar .container {
+	width: auto;
+}
+
+body {
+	padding-bottom: 40px;
+	color: #5a5a5a;
+	background-color: #F5F5F5;
+}
+
+.book_search .bs_label{
+	text-align: right;
+	padding: 5px;
+	width: 50%
+}
+
+.book_search .bs_field{
+	text-align: left;
+	padding: 5px;
+	width: 50%
+}
+
+.book_search_results tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+
+.book_search_results th, .book_search_results td {
+	border-bottom: 1px solid #ddd;
+	text-align:left;
+	padding: 10px;
+}
+
+.borrowers_form th, .borrowers_form td {
+	text-align:left;
+	padding: 10px;
+}
+
+.check_out_form th, .check_out_form td {
+	text-align:left;
+	padding: 10px;
+}
+
+@media (min-width: 768px) {
+	/* Navbar positioning foo */
+	.navbar-wrapper {
+		margin-top: 20px;
+	}
+	.navbar-wrapper .container {
+		padding-right: 15px;
+		padding-left: 15px;
+	}
+	.navbar-wrapper .navbar {
+		padding-right: 0;
+		padding-left: 0;
+	}
+
+	/* The navbar becomes detached from the top, so we round the corners */
+	.navbar-wrapper .navbar {
+		border-radius: 4px;
+	}
+}

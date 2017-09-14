@@ -1,0 +1,49 @@
+{% extends "layout_1.html" %}
+{% block title %}Book Loans{% endblock %}
+{% block nav_book_loans %}active{% endblock %}
+{% block content %}
+<div class="col-md-8 col-md-offset-2" align="center">
+	{% if loan_id is not None %}
+		<div class="col-md-8 col-md-offset-2 alert alert-success">
+			The book has been successfully checked out
+		</div>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+	{% endif %}
+	{% if form_errors is not None %}
+		<div class="col-md-8 col-md-offset-2 alert alert-danger">
+			Following errors have been detected:
+			<ul>
+				{% for key, errors in form_errors.items %}
+					{% for error in errors %}
+						<li>{{key}}: {{error | stringformat:"s"}}</li>
+					{% endfor %}
+				{% endfor %}
+			</ul>
+		</div>
+	{% endif %}
+	<form method="POST" action="{% url 'bookLoans:checkOut' %}">
+	{% csrf_token %}
+		<table class="check_out_form">
+			<tr>
+				<td>Card ID</td>
+				<td><input pattern="[0-9]*" name="borrower" value="{{book_loan.borrower_id|default_if_none:''}}" title="Card number must be a valid number." /></td>
+			</tr>
+			<tr>
+				<td>Book ISBN</td>
+				<td><input pattern=".{10}" name="book" value="{{book_loan.book_id|default_if_none:''}}" title="ISBN must be of length 10." /></td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<div align="center">
+						<input type="reset" name="reset" class="btn btn-default mr10" />
+						<input type="submit" name="submit" value="Submit" class="btn btn-success ml10" />
+					</div>
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
+{% endblock %}

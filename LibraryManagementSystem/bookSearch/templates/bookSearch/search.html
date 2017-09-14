@@ -1,0 +1,58 @@
+{% extends "layout_1.html" %}
+{% block title %}Book Search{% endblock %}
+{% block nav_book_search %}active{% endblock %}
+{% block content %}
+<div class="col-md-8 col-md-offset-2">
+	<form action="{% url 'bookSearch:search' %}" method="get" enctype="text/plain">
+		{% csrf_token %}
+		<table class="book_search" style="width: 100%">
+			<tr>
+				<td class="bs_label">ISBN</td>
+				<td class="bs_field"><input pattern=".{10}" name="isbn" value="{{isbn | default_if_none:''}}" title="ISBN must be of length 10."/></td>
+			</tr>
+			<tr>
+				<td class="bs_label">Book Title</td>
+				<td class="bs_field"><input type="text" value="{{title | default_if_none:''}}" name="btitle"/></td>
+			</tr>
+			<tr>
+				<td class="bs_label">Authors (Seperated by ',' if more than one)</td>
+				<td class="bs_field"><input type="text" value="{{authors | default_if_none:''}}" name="authors" style="width: 300px;" /></td>
+			</tr>
+			<tr>
+				<td class="bs_label"><input type="reset" name="reset" class="btn btn-default" /></td>
+				<td class="bs_field"><input type="submit" name="submit" value="Submit" class="btn btn-success" /></td>
+			</tr>
+		</table>
+	</form>
+	<br/>
+	<br/>
+	<table class="book_search_results" style="width: 100%">
+		<tr>
+			<th style="width: 17%">ISBN</th>
+			<th style="width: 28%">Title</th>
+			<th style="width: 45%">Authors</th>
+			<th style="width: 10%">Avaliable</th>
+		</tr>
+		{% for book_author in book_authors %}
+			{% if not forloop.last or book_authors|length < 11%}
+				<tr>
+					<td>{{ book_author.isbn }}</td>
+					<td>{{ book_author.title }}</td>
+					<td>{{ book_author.authors }}</td>
+					<td>{% if book_author.available %}Avaliable{% else %}NA{% endif %}</td>
+				</tr>
+			{% endif %}
+		{% empty %}
+			<tr>
+				<td colspan="3">Sorry, no results were found with those combinations.</td>
+			</tr>
+		{% endfor %}
+	</table>
+	{% if book_authors|length == 11%}
+		<a href="{% url 'bookSearch:search' %}{{nxt_params}}" class="fr">Next</a>
+	{% endif %}
+	{% if page_num > 0 %}
+		<a href="{% url 'bookSearch:search' %}{{back_params}}" class="fl">Back</a>
+	{% endif %}
+</div>
+{% endblock %}

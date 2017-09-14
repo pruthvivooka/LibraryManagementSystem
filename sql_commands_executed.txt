@@ -1,0 +1,6 @@
+COPY book(isbn, title, cover_link, pages) FROM '/home/scy11a/Projects/DBD/PAssignment1/normalized_data/book.csv' DELIMITER ',' CSV;
+COPY authors(name, author_id) FROM '/home/scy11a/Projects/DBD/PAssignment1/normalized_data/author.csv' DELIMITER ',' CSV;
+COPY book_authors(author_id, isbn) FROM '/home/scy11a/Projects/DBD/PAssignment1/normalized_data/book_author.csv' DELIMITER ',' CSV;
+COPY publishers(name, publisher_id) FROM '/home/scy11a/Projects/DBD/PAssignment1/normalized_data/publisher.csv' DELIMITER ',' CSV;
+COPY book_publishers(publisher_id, isbn) FROM '/home/scy11a/Projects/DBD/PAssignment1/normalized_data/book_publisher.csv' DELIMITER ',' CSV;
+COPY borrowers(borrower_id, ssn, first_name, last_name, email, address, city, state, phone) FROM '/home/scy11a/Projects/DBD/PAssignment1/normalized_data/borrower.csv' DELIMITER ',' CSV;

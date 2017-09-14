@@ -1,0 +1,14 @@
+{% extends "layout_1.html" %}
+{% block title %}Book Loans{% endblock %}
+{% block nav_book_loans %}active{% endblock %}
+{% block content %}
+<div class="col-md-8 col-md-offset-2" align="center">
+	You can check in, check out books, manage the fines of the borrowers in this section.
+	<br/><br/>
+	<a href="{% url 'bookLoans:checkOut' %}" class="btn btn-primary">Check Out</a>
+	<br/><br/>
+	<a href="{% url 'bookLoans:checkIn' %}" class="btn btn-primary">Check In</a>
+	<br/><br/>
+	<a href="{% url 'bookLoans:fines' %}" class="btn btn-primary">Fines</a>
+</div>
+{% endblock %}
